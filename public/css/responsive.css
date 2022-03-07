@@ -1,0 +1,310 @@
+/******************************************
+    File Name: responsive.css
+    Template Name: YourCoupon
+    Created By: PSD Convert HTML Team
+    Envato Profile: http://themeforest.net/user/psdconverthtml
+    Website: https://psdconverthtml.com
+    Version: 1.0
+    Support: support@psdconverthtml.com
+/******************************************/
+
+@media (max-width: 992px) {
+    .first-section {
+        padding:10em 0;
+    }
+    .ab-menu  {
+        position: relative;
+        background-color: #212121;
+    }
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-color: #121212;
+}
+
+    .header,
+    .ab-menu .container {
+        border:0 !important;
+    }
+    .coupon-tab .nav-tabs {
+        border-bottom: 0 none;
+        left: 0;
+        position: relative;
+        right: 0;
+        top: 0;
+    }
+    .demo-1 {
+        display: none;
+    }
+    .coupon-vote {
+        margin-bottom: 20px;
+    }
+    .promobox h4 {
+        font-size: 12px;
+    }
+    .promobox small {
+        font-size: 10px;
+    }
+    .item .col-md-3 {
+        margin: 15px 0;
+    }
+    .section-title h1 {
+        font-size: 28px;
+    }
+    .coupon-wrapper .show-code {
+        width: 100%;
+    }
+    .coupon-wrapper .coupon-code {
+        text-align: center;
+    }
+    .navbar-default .navbar-nav > li > a {
+        font-size: 14px;
+        padding: 7px 8px;
+        border-radius: 0;
+    }
+    .header .well {
+        display: block;
+        float: right;
+        min-width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .well .input-group {
+        width: 100%;
+    }
+
+    .navbar-brand small {
+        margin-left: 0;
+    }
+
+    .navbar-brand {
+        padding-left: 15px;
+    }
+
+    .navbar-brand::after,
+    .well .input-group-addon {
+        display: none;
+    }
+    .well .btn-primary {
+        position: relative;
+        display: block;
+        right: 0;
+        width: 100%;
+    }
+    .post-sharing .btn .fa-twitter,
+    .post-sharing .btn .fa-facebook {
+        border-right: 0;
+        padding-right: 0;
+        margin-right: 0;
+    }
+    .single-store .coupon-meta h3 small a {
+        display: block;
+        padding-left: 0;
+    }
+    .single-store .coupon-meta h3 {
+        font-size: 21px;
+        margin-top: 20px;
+    }
+    .page-title h3 {
+        font-size: 21px;
+    }
+    .coupon-tab .nav-tabs li {
+        float: none;
+        text-align: center;
+        width: 100%;
+    }
+    .store-list .check-list li {
+        float: none;
+        width: 100%;
+    }
+    .logo-wrapper {
+        padding-bottom: 60px;
+    }
+    .navbar-brand p,
+    .dl-menuwrapper p {
+        text-align: center;
+    }
+    .well .form-control {
+        font-size: 13px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .footer .widget {
+        padding: 20px 0;
+    }
+    .section-title h1 {
+        font-size: 18px;
+    }
+    .ttmenu .navbar-default .ttmenu-content,
+    .ttmenu .navbar-collapse {
+        padding: 15px;
+    }
+    .navbar-toggle {
+        margin-top: 0;
+    }
+    .navbar-brand p {
+        margin: 0;
+    }
+    .logo-wrapper img {
+        margin: 0 auto;
+        display: block;
+    }
+    .copyrights ul {
+        margin-top: 20px;
+    }
+    .copyrights,
+    .copyrights .text-right,
+    .logo-wrapper,
+    .topbar,
+    .topbar .text-right {
+        text-align: center;
+    }
+    .logo-wrapper p {
+        padding: 0;
+    }
+    .header .well {
+        margin-top: 60px;
+        display: block;
+        float: none;
+        min-width: auto;
+    }
+}
+
+@media (max-width: 1280px) {
+    .section .device-showcase {
+        position: absolute;
+        bottom: -370px;
+        right: 70%;
+    }
+}
+
+@media (max-width: 1200px) {
+    .carousel-control.left,
+    .carousel-control.right {
+        margin-left: 30px !important;
+        margin-right: 30px !important;
+    }
+    .container {
+        width: 95%;
+    }
+}
+
+@media (max-width: 1080px) {
+    .coupon-meta h3 {
+        font-size: 15px;
+    }
+    .navbar-brand p,
+    .dl-menuwrapper p {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 992px) {
+    .dl-menuwrapper:hover ul,
+    .header .hasmenu:hover > ul {
+        visibility: visible;
+        opacity: 1;
+        top: 100% !important;
+    }
+    .dl-menuwrapper ul,
+    .header .navbar-nav .hasmenu ul {
+        -webkit-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        -moz-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        -o-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+    }
+    .header .hasmenu .dropdown-menu {
+        min-width: 200px;
+        padding: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+    .dl-menuwrapper ul,
+    .header .hasmenu > ul {
+        position: absolute;
+        top: 140%;
+        visibility: hidden;
+        display: block;
+        opacity: 0;
+        left: 0;
+        margin-top: 0 !important;
+    }
+    .dl-menuwrapper ul {
+        margin-top: 10px !important;
+    }
+    .header .hasmenu > ul.start-right {
+        right: 0;
+        left: auto;
+    }
+    .header .hasmenu > ul li {
+        position: relative;
+    }
+    .header .hasmenu > ul li:hover > ul {
+        visibility: visible;
+        opacity: 1;
+        left: 100%;
+    }
+    .header .hasmenu > ul li:hover > ul.show-right {
+        right: 100%;
+    }
+    .header .navbar-nav .has-submenu {
+        margin-top: 0 !important;
+        position: relative;
+    }
+    .header .navbar-nav .has-submenu:hover > ul {
+        visibility: visible;
+        opacity: 1;
+        top: 100%;
+    }
+    .header .navbar-nav .has-submenu:hover > ul li ul {
+        margin-top: -1px;
+    }
+    .header .navbar-nav .has-submenu ul {
+        -webkit-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        -moz-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        -o-transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+        transition: visibility 0.35s ease-in-out, opacity 0.35s ease-in-out, top 0.35s ease-in-out, bottom 0.35s ease-in-out, left 0.35s ease-in-out, right 0.35s ease-in-out;
+    }
+    .header .navbar-nav .has-submenu .dropdown-menu {
+        min-width: 220px;
+        padding: 0;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+    }
+    .header .navbar-nav .has-submenu > ul {
+        position: absolute;
+        top: 130%;
+        visibility: hidden;
+        display: block;
+        opacity: 0;
+        left: 0;
+    }
+    .header .navbar-nav .has-submenu > ul.start-right {
+        right: 0;
+        left: auto;
+    }
+    .header .navbar-nav .has-submenu > ul li {
+        position: relative;
+    }
+    .header .navbar-nav .has-submenu > ul li:hover > ul {
+        visibility: visible;
+        opacity: 1;
+        left: 105%;
+    }
+    .header .navbar-nav .has-submenu > ul li:hover > ul.show-right {
+        right: 100%;
+    }
+    .header .navbar-nav .has-submenu > ul li ul {
+        position: absolute;
+        top: 0;
+        visibility: hidden;
+        display: block;
+        opacity: 0;
+        left: 130%;
+    }
+    .header .navbar-nav .has-submenu > ul li ul.show-right {
+        right: 130%;
+        left: auto;
+    }
+}

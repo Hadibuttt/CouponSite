@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'index');
+Route::get('/user-dashboard', [App\Http\Controllers\WebCodeController::class, 'dashboard']);
+Route::view('/coupon-submit', 'coupon-submit');
+
+Route::post('/create-coupon', [App\Http\Controllers\WebCodeController::class, 'createCoupon']);

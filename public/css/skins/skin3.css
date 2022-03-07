@@ -1,0 +1,174 @@
+/******************************************
+    File Name: colors.css
+    Template Name: YourCoupon
+    Created By: PSD Convert HTML Team
+    Envato Profile: http://themeforest.net/user/psdconverthtml
+    Website: https://psdconverthtml.com
+    Version: 1.0
+    Support: support@psdconverthtml.com
+/******************************************/
+
+.parallax {
+    background-image:url("../../uploads/parallax_01_skin_03.jpg") !important;
+}
+
+/* DARK */
+
+.checkbox-success input[type="checkbox"]:checked + label::before,
+.checkbox-success input[type="radio"]:checked + label::before,
+.footer .first_accordion .panel-primary .panel-title a,
+.footer .first_accordion .panel-primary .panel-title,
+.copyrights,
+.footer .newsletter .form-control,
+.topbar,
+.btn-default,
+.modal-backdrop,
+.color1 {
+    border-color: #292929 !important;
+    background-color: #222222 !important;
+    color: #ffffff;
+}
+
+/* DARK HOVER */
+.logo-wrapper,
+.well .btn:hover,
+.well .btn:focus,
+.footer,
+.btn-default:hover,
+.btn-default:focus,
+.color1:hover {
+    background-color: #292929 !important;
+    border-color: #222222 !important;
+    color: #ffffff !important;
+}
+
+/* COLOR */
+
+.custom-tab-nav.nav-tabs > li:hover a,
+.custom-tab-nav.nav-tabs > li:focus a,
+.custom-tab-nav.nav-tabs > li.active > a:focus, 
+.custom-tab-nav.nav-tabs > li.active > a:hover,
+.coupon-tab .nav-tabs li.active {
+    border-top-color: #9c27b0;
+}
+.favorite-coupon .fa,
+.promobox h4 a:hover,
+.custom-widget i,
+.item-meta .fa,
+.custom-tab-nav.nav-tabs > li.active > a, 
+.navbar-brand::after,
+.navbar-default .dropdown-menu li:hover .customlist li:hover a,
+.copylinks p a,
+.customlist li:before,
+.footer .twitter_feed li:hover a,
+.footer li:hover a,
+.twitter_feed li span:before,
+.navbar-default .dropdown-menu li:hover a,
+.code-modal .btn-primary,
+a:hover,
+a:focus {
+    color: #9c27b0 !important;
+}
+
+.pagination > li > a,
+.pagination > li > span,
+.well .btn,
+.nav-pills > li > a span,
+.demo_changer .demo-icon,
+.check-list li i,
+.demo_changer .demo-icon i,
+.featured,
+.custom-widget,
+.post-media img:hover,
+
+.promo-desc img,
+.slider-section,
+.carousel-control.left:hover,
+.carousel-control.right:hover,
+.demo-1 .dl-menuwrapper ul,
+.dl-menuwrapper:hover button,
+.well .dropdown-menu > li:hover a,
+.menu-color .btn-primary,
+.menu-color .label-danger,
+.menu-color .navbar-default .navbar-nav > .open > a,
+.menu-color .navbar-default .navbar-nav > .open > a:hover,
+.menu-color .navbar-default .navbar-nav > .open > a:focus,
+.menu-color .navbar-default .navbar-nav > li > a:focus,
+.menu-color .navbar-default .navbar-nav > li > a:active,
+.menu-color .navbar-default .navbar-nav > li > a.active,
+.menu-color .navbar-default .navbar-nav > li > a:hover,
+.btn-primary,
+.coupon-list:hover .post-media img,
+.coupon-wrapper .show-code,
+.color2 {
+    background-color: #9c27b0 !important;
+    border-color: #9c27b0 !important;
+    color: #ffffff !important;
+}
+
+.code-modal .btn-primary {
+    color: #9c27b0 !important;
+    background-color: transparent !important;
+    border: 2px dashed #9c27b0 !important;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.well .btn:hover,
+.well .btn:focus,
+.code-modal .btn-primary,
+.code-modal .btn-primary:hover,
+.code-modal .btn-primary:focus,
+.btn-custom:hover,
+.btn-custom:focus,
+.btn-custom {
+    color:#9c27b0 !important;
+    border-color:#9c27b0 !important;
+    background-color: transparent !important;
+}
+
+
+.coupon-wrapper .show-code {
+    background: repeating-linear-gradient( 45deg, transparent, transparent 10px, #9c27b0 10px, #9c27b0 20px), linear-gradient( to bottom, #911ea5, #911ea5)
+}
+
+/* COLOR HOVER */
+.demo_changer .form_holder,
+.section-title hr,
+.coupon-vote a:hover,
+.coupon-vote a:focus,
+.code-modal .btn-primary:hover {
+    border-color: #911ea5 !important;
+}
+
+.well .btn:hover,
+.well .btn:focus,
+.dl-menuwrapper li a:hover,
+.btn-primary:hover,
+.btn-primary:focus,
+.coupon-wrapper .show-code:hover,
+.color2:hover {
+    background-color: #911ea5 !important;
+    border-color: #911ea5 !important;
+    color: #ffffff !important;
+}
+
+
+/* OTHERS */
+.nav-pills > li.active > a, .nav-pills > li.active > a:focus, .nav-pills > li.active > a:hover, .nav-pills > li:hover a, .nav-pills > li:focus a,
+.fileupload .thumbnail {
+    background-color: #f3f6f9 !important;
+}
+.store-list .check-list li,
+.coupon-wrapper .coupon-code,
+.newsletter .form-control,
+.post-media img,
+.section {
+    background-color: #f3f6f9;
+}
+.promo-desc {
+    background-color: rgba(0,0,0,0.7);
+}
+.featured::before {
+    border-color: #0094ac transparent transparent #0094ac;
+}

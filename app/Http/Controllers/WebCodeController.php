@@ -39,6 +39,25 @@ class WebCodeController extends Controller
         ]);
     }
 
+
+    public function createCoupon(Request $request)
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'required|integer',
+            'website' => 'required|string|max:255|min:3',
+            'code' => 'required|string|min:2',
+        ]);
+
+        $data = WebCode::create([
+            'user_id' => $validatedData['user_id'],
+            'website' => $validatedData['website'],
+            'code' => $validatedData['code'],
+        ]);
+        
+        return redirect('/coupon-submit')->with('success', 'Coupon added successfully!');
+    }
+
+
     public function update(Request $request)
     {
         $validatedData = $request->validate([
@@ -60,7 +79,13 @@ class WebCodeController extends Controller
     }
 
 
+    public function dashboard()
+    {
+        $data = Webcode::where('user_id','1')->orderBy('id','DESC')->get();
+        $user = User::where('id', 1)->first();
 
+        return view('dashboard', compact('data','user'));
+    }
 
 
 
