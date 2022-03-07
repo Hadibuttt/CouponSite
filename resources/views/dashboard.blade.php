@@ -29,17 +29,30 @@
             <div class="sidebar col-md-8">
                 <div class="widget clearfix">
 
-                    <form id="submit" class="contact-form newsletter">
+                    <form action="/update-profile" method="POST" enctype="multipart/form-data" id="submit" class="contact-form newsletter">
+        @if (Session::has('success'))
+                        <div class="alert alert-dismissable alert-success">    
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                              {{ Session::get('success') }}
+                      </div>
+        @endif
+                        @csrf
+                        @method('PATCH')
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <label class="control-label">Your Photo <small>Please add a photo. (200x200)</small></label>
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
                                     <div class="fileupload-preview thumbnail"><img @if($user->image == null)src="images/profile-images/null.jpg" @else src="{{asset('images/profile-images/'.$user->image.'')}}" @endif alt=""></div>
+                        @error('image')
+                                    <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
+                        @enderror                
                                     <br>
                                     <span class="btn btn-default btn-file">
                                     <span class="fileupload-new">Select Avatar</span>
                                     <span class="fileupload-exists">Change</span>
-                                    <input type="file">
+                                    <input name="image" type="file" accept="image/*">
                                     </span>
                                     <a href="#" class="btn btn-default fileupload-exists" data-dismiss="fileupload"><i class="fa fa-close"></i></a>
                                 </div>
@@ -52,11 +65,17 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <label class="control-label">Your Name <small>Enter your company name</small></label>
-                                <input type="text" class="form-control" placeholder="Jenny Pelt">
+                                <input name="name" value="{{$user->name}}" required type="text" class="form-control" placeholder="Jenny Pelt">
+                    @error('name')
+                                <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
+                    @enderror
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label class="control-label">Email <small>Enter offical email here</small></label>
-                                <input type="email" class="form-control" placeholder="support@psdconverthtml.com">
+                                <input name="email" type="email" value="{{$user->email}}" required class="form-control" placeholder="support@psdconverthtml.com">
+                    @error('email')
+                                <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
+                    @enderror
                             </div>
 
                             <div class="col-md-12 col-sm-12">
@@ -66,6 +85,34 @@
                     </form>
 
                     <hr class="invis3">
+
+                    <table class="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th colspan="4" scope="col"><center>Website and code list</center></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td colspan="2"><center>Website</center></td>
+                            <td colspan="2"><center>Code</center></td>
+                          </tr>
+                        
+                        @if ($count == 0)
+                            <td colspan="4"><center>No Coupons Added!</center></td>
+                        @else
+                          
+                        @foreach ($datas as $data)
+                          <tr>
+                            <td colspan="2">{{$data->website}}</td>
+                            <td colspan="2">{{$data->code}}</td>
+                          </tr>
+                        @endforeach
+                        
+                        @endif
+
+                        </tbody>
+                      </table>
                  
                 </div>
             </div><!-- end content -->

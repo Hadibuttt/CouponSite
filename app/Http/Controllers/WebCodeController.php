@@ -79,15 +79,5 @@ class WebCodeController extends Controller
     }
 
 
-    public function dashboard()
-    {
-        $data = Webcode::where('user_id','1')->orderBy('id','DESC')->get();
-        $user = User::where('id', 1)->first();
-
-        return view('dashboard', compact('data','user'));
-    }
-
-
-
 
 }
