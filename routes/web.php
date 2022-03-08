@@ -22,3 +22,4 @@ Route::view('/coupon-submit', 'coupon-submit');
 Route::get('/delete-coupon/{slug}', [App\Http\Controllers\WebCodeController::class, 'delete']);
 
 Route::post('/create-coupon', [App\Http\Controllers\WebCodeController::class, 'createCoupon']);
+Route::post('/create-multiple-coupon', [App\Http\Controllers\WebCodeController::class, 'createMCoupon']);

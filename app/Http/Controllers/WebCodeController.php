@@ -57,6 +57,37 @@ class WebCodeController extends Controller
         return redirect('/coupon-submit')->with('success', 'Coupon added successfully!');
     }
 
+    public function createMCoupon(Request $request)
+    {
+        $validatedData = $request->validate([
+            'user_id' => 'required|integer',
+            'website' => 'required|string|max:255|min:3',
+            'code1' => 'required|string|min:2',
+            'code2' => 'required|string|min:2',
+            'code3' => 'required|string|min:2',
+        ]);
+
+        $webcode = new WebCode();
+        $webcode->user_id = $validatedData['user_id'];
+        $webcode->website = $validatedData['website'];
+        $webcode->code = $validatedData['code1'];
+        $webcode->save();
+
+        $webcode = new WebCode();
+        $webcode->user_id = $validatedData['user_id'];
+        $webcode->website = $validatedData['website'];
+        $webcode->code = $validatedData['code2'];
+        $webcode->save();
+
+        $webcode = new WebCode();
+        $webcode->user_id = $validatedData['user_id'];
+        $webcode->website = $validatedData['website'];
+        $webcode->code = $validatedData['code3'];
+        $webcode->save();
+        
+        return redirect('/coupon-submit')->with('success', 'Coupons added successfully!');
+    }
+
     public function delete($slug)
     {
         Webcode::where('user_id','1')->where('code',$slug)->delete();
