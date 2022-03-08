@@ -27,7 +27,7 @@ class UserController extends Controller
             'email' => 'required|email|max:255|unique:users,email,'.'1',
         ]);
 
-
+        //Image Resizing
         $image = $request->file('image');
         $validatedData['image'] = time().'.'.$image->extension();
      

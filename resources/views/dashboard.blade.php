@@ -38,6 +38,15 @@
                               {{ Session::get('success') }}
                       </div>
         @endif
+
+        @if (Session::has('danger'))
+                        <div class="alert alert-dismissable alert-danger">    
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                          </button>
+                              {{ Session::get('danger') }}
+                      </div>
+        @endif
                         @csrf
                         @method('PATCH')
                         <div class="row">
@@ -96,16 +105,18 @@
                           <tr>
                             <td colspan="2"><center>Website</center></td>
                             <td colspan="2"><center>Code</center></td>
+                            <td colspan="2"><center>Action</center></td>
                           </tr>
                         
                         @if ($count == 0)
-                            <td colspan="4"><center>No Coupons Added!</center></td>
+                            <td colspan="5"><center>No Coupons Added!</center></td>
                         @else
                           
                         @foreach ($datas as $data)
                           <tr>
                             <td colspan="2">{{$data->website}}</td>
                             <td colspan="2">{{$data->code}}</td>
+                            <td colspan="2"><center><a href="/delete-coupon/{{$data->code}}"><i class="fa fa-trash" aria-hidden="true"></i></a></center></td>
                           </tr>
                         @endforeach
                         

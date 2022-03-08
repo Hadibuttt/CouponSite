@@ -57,6 +57,11 @@ class WebCodeController extends Controller
         return redirect('/coupon-submit')->with('success', 'Coupon added successfully!');
     }
 
+    public function delete($slug)
+    {
+        Webcode::where('user_id','1')->where('code',$slug)->delete();
+        return redirect('/user-dashboard')->with('danger', 'Coupon deleted successfully!');
+    }
 
     public function update(Request $request)
     {
