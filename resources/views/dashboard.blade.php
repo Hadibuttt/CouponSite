@@ -44,7 +44,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <label class="control-label">Your Photo <small>Please add a photo. (200x200)</small></label>
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="fileupload-preview thumbnail"><img @if($user->image == null)src="images/profile-images/null.jpg" @else src="{{asset('images/profile-images/'.$user->image.'')}}" @endif alt=""></div>
+                                    <div class="fileupload-preview thumbnail"><img @if($user->image == null)src="images/profile-images/null.jpg" @else src="thumbnails/{{$user->image}}" @endif alt=""></div>
                         @error('image')
                                     <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
                         @enderror                
