@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWebcodeTable extends Migration
+class CreateExtensionUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateWebcodeTable extends Migration
      */
     public function up()
     {
-        Schema::create('webcode', function (Blueprint $table) {
+        Schema::create('extension_users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('supporting')->nullable()->default(false);
-            $table->string('website');
-            $table->string('profile_thumbnail');
-            $table->string('coupon_codes');
+            $table->string('email')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateWebcodeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('webcode');
+        Schema::dropIfExists('extension_users');
     }
 }

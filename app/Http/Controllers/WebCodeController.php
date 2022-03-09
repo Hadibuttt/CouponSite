@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\WebCode;
 use App\Models\User;
+use File;
 
 class WebCodeController extends Controller
 {
@@ -43,15 +44,17 @@ class WebCodeController extends Controller
     public function createCoupon(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
             'website' => 'required|string|max:255|min:3',
             'code' => 'required|string|min:2',
         ]);
 
-        $data = WebCode::create([
-            'user_id' => $validatedData['user_id'],
-            'website' => $validatedData['website'],
-            'code' => $validatedData['code'],
+        $website = preg_replace("(^https?://)", "", $validatedData['website'] );
+
+        WebCode::create([
+            'name' => 'Hadi Butt',
+            'website' => $website,
+            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
+            'coupon_codes' => $validatedData['code'],
         ]);
         
         return redirect('/coupon-submit')->with('success', 'Coupon added successfully!');
@@ -60,30 +63,34 @@ class WebCodeController extends Controller
     public function createMCoupon(Request $request)
     {
         $validatedData = $request->validate([
-            'user_id' => 'required|integer',
             'website' => 'required|string|max:255|min:3',
             'code1' => 'required|string|min:2',
             'code2' => 'required|string|min:2',
             'code3' => 'required|string|min:2',
         ]);
+    
+        $website = preg_replace("(^https?://)", "", $validatedData['website']);
 
-        $webcode = new WebCode();
-        $webcode->user_id = $validatedData['user_id'];
-        $webcode->website = $validatedData['website'];
-        $webcode->code = $validatedData['code1'];
-        $webcode->save();
+        WebCode::create([
+            'name' => 'Hadi Butt',
+            'website' => $website,
+            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
+            'coupon_codes' => $validatedData['code1'],
+        ]);
 
-        $webcode = new WebCode();
-        $webcode->user_id = $validatedData['user_id'];
-        $webcode->website = $validatedData['website'];
-        $webcode->code = $validatedData['code2'];
-        $webcode->save();
+        WebCode::create([
+            'name' => 'Hadi Butt',
+            'website' => $website,
+            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
+            'coupon_codes' => $validatedData['code2'],
+        ]);
 
-        $webcode = new WebCode();
-        $webcode->user_id = $validatedData['user_id'];
-        $webcode->website = $validatedData['website'];
-        $webcode->code = $validatedData['code3'];
-        $webcode->save();
+        WebCode::create([
+            'name' => 'Hadi Butt',
+            'website' => $website,
+            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
+            'coupon_codes' => $validatedData['code3'],
+        ]);
         
         return redirect('/coupon-submit')->with('success', 'Coupons added successfully!');
     }

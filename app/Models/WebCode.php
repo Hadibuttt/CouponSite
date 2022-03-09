@@ -13,8 +13,15 @@ class WebCode extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'user_id',
+        'name',
         'website',
-        'code',
+        'profile_thumbnail',
+        'coupon_codes',
+    ];
+
+    protected $hidden = [
+        'id',
+        'updated_at',
+        'created_at',
     ];
 }

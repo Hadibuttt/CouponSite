@@ -57,7 +57,6 @@
                     <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
                 @enderror
 
-        <input type="hidden" name="user_id" value="1" id="">
         <hr class="invis3">
         <button class="btn btn-primary">Submit Coupon</button>
         </div>
