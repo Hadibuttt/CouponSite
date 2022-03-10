@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\WebCode;
+use App\Models\Website;
+use App\Models\UserSupport;
 use Validator;
 
 class CreatorController extends Controller
@@ -15,13 +16,12 @@ class CreatorController extends Controller
     {   
         $url = preg_replace("(www.)", "", $url);
 
-        $creaters = WebCode::where('website', 'like', "%$url%")->get();
+        $creaters = Website::select('name','supporting','website','profile_thumbnail','coupon_codes')->where('website', 'like', "%$url%")->get();
         
         return response()->json([
             'success' => 'true',
             'creators' => $creaters,
         ]);
-
     }
 
 
@@ -29,14 +29,50 @@ class CreatorController extends Controller
     {   
         $url = preg_replace("(www.)", "", $url);
 
-        $creaters = WebCode::where('name', 'like', "%$url%")->get();
+        $creaters = Website::select('name','supporting','website','profile_thumbnail','coupon_codes')->where('website', 'like', "%$url%")->orWhere('name', 'like', "%$url%")->get();
         
         return response()->json([
             'success' => 'true',
             'results' => $creaters,
         ]);
-
     }
 
+    public function support(Request $request)
+    {
+        $createrID = $request->createrID;
+        $supporting = $request->supporting;
+
+        if(!User::find($createrID)){
+                return response()->json([
+                    "success" => 'false',
+                    "msg" => 'creator not found'
+                ]);}
+
+        User::where('id',$createrID)->update([
+            'supporting' => $supporting
+        ]);
+        
+        $userName = User::where('id',$createrID)->first();
+        
+        Website::where('name',$userName['name'])->update([
+            'supporting' => $supporting
+        ]);
+
+        return response()->json([
+            "success"=> 'true',
+            "msg" => 'supporting started/stopped'
+        ]);
+    }
+
+    public function supporters(Request $request)
+    {
+        $UserSupporting =  UserSupport::where('user_name','Rashid Butt')->get();
+
+        $userSupports =  Website::select('name','supporting','website','profile_thumbnail','coupon_codes')->where('name', $UserSupporting['creator_name'])->get();
+
+        return response()->json([
+            $userSupports
+        ]);
+    }
 
 }

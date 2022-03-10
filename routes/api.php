@@ -25,10 +25,9 @@ Route::post('/login', [App\Http\Controllers\AuthController::class, 'login']);
 //Creator API'S
 Route::get('/q/{url}', [App\Http\Controllers\CreatorController::class, 'search']);
 Route::get('/s/{url}', [App\Http\Controllers\CreatorController::class, 'searchName']);
+Route::post('/support', [App\Http\Controllers\CreatorController::class, 'support']);
+Route::get('/supporters', [App\Http\Controllers\CreatorController::class, 'supporters']);
 
-
-
-// $url = preg_replace("(^https?://)", "", $url );
 
 
 
