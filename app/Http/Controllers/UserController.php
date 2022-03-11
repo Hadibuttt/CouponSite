@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\WebCode;
+use App\Models\Website;
+use App\Models\Coupon;
 use App\Models\User;
 use Image;
 
@@ -12,11 +13,21 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        $datas = Webcode::where('user_id','1')->orderBy('id','DESC')->get();
-        $count = Webcode::where('user_id','1')->count();
+        $websites = Website::where('name','Hadi Butt')->get();
+
+        $WebsiteArray = array();
+            
+        foreach($websites as $c){
+            $WebsiteArray[] = $c->id;
+        }
+
+        $coupons = Coupon::whereIn('website_id',$WebsiteArray)->orderBy('id','DESC')->get();
+
+        
+        $count = Coupon::whereIn('website_id',$WebsiteArray)->count();
         $user = User::where('id', 1)->first();
 
-        return view('dashboard', compact('datas','user','count'));
+        return view('dashboard', compact('websites','coupons','user','count'));
     }
 
     public function update(Request $request)

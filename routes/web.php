@@ -19,7 +19,7 @@ Route::patch('/update-profile', [App\Http\Controllers\UserController::class, 'up
 Route::view('/coupon-submit', 'coupon-submit');
 
 
-Route::get('/delete-coupon/{slug}', [App\Http\Controllers\WebCodeController::class, 'delete']);
+Route::get('/delete-coupon/{id}/{cid}', [App\Http\Controllers\WebCodeController::class, 'delete']);
 
 Route::post('/create-coupon', [App\Http\Controllers\WebCodeController::class, 'createCoupon']);
 Route::post('/create-multiple-coupon', [App\Http\Controllers\WebCodeController::class, 'createMCoupon']);

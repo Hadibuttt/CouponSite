@@ -13,7 +13,7 @@ class WebCodeController extends Controller
 {
     public function Index()
     {
-        $website = Website::where('name','Hadi Butt')->where('website', $website)->first();
+        $data = Webcode::where('user_id','1')->orderBy('id','DESC')->get();
 
         return response()->json([
             "Message" => 'Showing Data',
@@ -106,36 +106,105 @@ class WebCodeController extends Controller
             'code2' => 'required|string|min:2',
             'code3' => 'required|string|min:2',
         ]);
-    
-        $website = preg_replace("(^https?://)", "", $validatedData['website']);
 
-        WebCode::create([
-            'name' => 'Hadi Butt',
-            'website' => $website,
-            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
-            'coupon_codes' => $validatedData['code1'],
-        ]);
+        $website = preg_replace("(^https?://)", "", $validatedData['website'] );
 
-        WebCode::create([
-            'name' => 'Hadi Butt',
-            'website' => $website,
-            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
-            'coupon_codes' => $validatedData['code2'],
-        ]);
+        $alreadyAdded = Website::where('name','Hadi Butt')->where('website', $website)->first();
 
-        WebCode::create([
-            'name' => 'Hadi Butt',
-            'website' => $website,
-            'profile_thumbnail' => 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg',
-            'coupon_codes' => $validatedData['code3'],
-        ]);
+        if(!$alreadyAdded){
+            $web = new Website();
+            $web->name = 'Hadi Butt';
+            $web->website = $website;
+            $web->profile_thumbnail = 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg';
+            $web->save();
+
+            $websiteID = Website::latest('id')->value('id');
+        
+            $coupon = new Coupon();
+            $coupon->website_id = $websiteID;
+            $coupon->coupon_code = $validatedData['code1'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $coupon1 = Coupon::latest('id')->value('coupon_code');
+
+            $coupon = new Coupon();
+            $coupon->website_id = $websiteID;
+            $coupon->coupon_code = $validatedData['code2'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $coupon2 = Coupon::latest('id')->value('coupon_code');
+
+            $coupon = new Coupon();
+            $coupon->website_id = $websiteID;
+            $coupon->coupon_code = $validatedData['code3'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $coupon3 = Coupon::latest('id')->value('coupon_code');
+
+            Website::where('id', $websiteID )->update([
+                "coupon_codes" => [$coupon1,$coupon2,$coupon3]
+            ]);
+    }
+    else{
+            $coupon = new Coupon();
+            $coupon->website_id = $alreadyAdded['id'];
+            $coupon->coupon_code = $validatedData['code1'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $coupon = new Coupon();
+            $coupon->website_id = $alreadyAdded['id'];
+            $coupon->coupon_code = $validatedData['code2'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $coupon = new Coupon();
+            $coupon->website_id = $alreadyAdded['id'];
+            $coupon->coupon_code = $validatedData['code3'];
+            $coupon->user_name = 'Hadi Butt';
+            $coupon->save();
+
+            $website_id = Coupon::latest('id')->value('website_id');
+            
+            $coupons = Coupon::where('website_id',$website_id)->select('coupon_code')->get();
+
+            $coupons_codes = array();
+            
+            foreach($coupons as $c){
+                $coupons_codes[] = $c['coupon_code'];
+            }
+            
+            Website::where('website', $alreadyAdded['website'])->update([
+                "coupon_codes" => $coupons_codes
+            ]);
+    }
         
         return redirect('/coupon-submit')->with('success', 'Coupons added successfully!');
     }
 
-    public function delete($slug)
+    public function delete($id,$cid)
     {
-        Webcode::where('user_id','1')->where('code',$slug)->delete();
+        $website = Coupon::where('user_name','Hadi Butt')->where('website_id',$id)->first();
+
+        Coupon::where('user_name','Hadi Butt')->where('id',$cid)->delete();
+
+        $coupons = Coupon::where('user_name','Hadi Butt')->where('website_id',$id)->select('coupon_code')->get();
+
+            $coupons_codes = array();
+            
+            foreach($coupons as $c){
+                $coupons_codes[] = $c['coupon_code'];
+            }
+            
+            Website::where('id', $id)->update([
+                "coupon_codes" => $coupons_codes
+            ]);
+
+        
+
         return redirect('/user-dashboard')->with('danger', 'Coupon deleted successfully!');
     }
 
