@@ -13,7 +13,7 @@ class WebCodeController extends Controller
 {
     public function Index()
     {
-        $data = Webcode::where('user_id','1')->orderBy('id','DESC')->get();
+        $website = Website::where('name','Hadi Butt')->where('website', $website)->first();
 
         return response()->json([
             "Message" => 'Showing Data',

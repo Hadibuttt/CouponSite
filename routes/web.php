@@ -23,3 +23,5 @@ Route::get('/delete-coupon/{slug}', [App\Http\Controllers\WebCodeController::cla
 
 Route::post('/create-coupon', [App\Http\Controllers\WebCodeController::class, 'createCoupon']);
 Route::post('/create-multiple-coupon', [App\Http\Controllers\WebCodeController::class, 'createMCoupon']);
+
+Route::view('reset-password', 'reset_password')->name('password.reset');

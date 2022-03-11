@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\ExtensionUser;
+use Illuminate\Support\Facades\Password;
+use App\Models\User;
 use Validator;
 
 
@@ -15,7 +16,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:extension_users',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
@@ -26,7 +27,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = ExtensionUser::create([
+        $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -47,7 +48,7 @@ class AuthController extends Controller
                 ]);
             }
     
-        $user = ExtensionUser::where('email', $request['email'])->firstOrFail();
+        $user = User::where('email', $request['email'])->firstOrFail();
     
         $token = $user->createToken('auth_token')->plainTextToken;
     
@@ -57,5 +58,79 @@ class AuthController extends Controller
                 'msg' => 'logged in successfully',
         ]);
     }
+
+    public function forgot(Request $request)
+    {
+        $credentials = $request->validate(['email' => 'required|email']);
+        $emailIs = User::where('email',$credentials)->first();
+        
+        if($emailIs){
+            Password::sendResetLink($credentials);
+            return response()->json([
+                'success' => 'true',
+                'msg' => 'password resent link sent to email',
+        ]);
+        }else{
+            return response()->json([
+                'success' => 'false',
+                'msg' => 'email not found',
+            ]);
+        }
+    }
+
+    public function reset() {
+        $credentials = request()->validate([
+            'email' => 'required|email',
+            'token' => 'required|string',
+            'password' => 'required|string|confirmed'
+        ]);
+
+        $reset_password_status = Password::reset($credentials, function ($user, $password) {
+            $user->password = Hash::make($password);
+            $user->save();
+        });
+
+        if ($reset_password_status == Password::INVALID_TOKEN) {
+            return response()->json(["msg" => "Invalid token provided"], 400);
+        }
+
+        return response()->json(["msg" => "Password has been successfully changed"]);
+    }
+
+    public function update(Request $request)
+    {
+        $hashedPassword = Auth::user()->password;
+
+        if (\Hash::check($request->currentPassword , $hashedPassword )) {
+ 
+            if (!\Hash::check($request->newPassword , $hashedPassword)) {
+    
+                 $users = User::find(Auth::user()->id);
+                 $users->password = bcrypt($request->newPassword);
+                 User::where('id', Auth::user()->id)->update(['password' =>  $users->password]);
+    
+                    return response()->json([
+                        'success' => 'true',
+                        'msg' => 'password updated successfully',
+                    ]);
+               }
+    
+               else{
+                    return response()->json([
+                        'success' => 'false',
+                        'msg' => 'New Password can not be the Old Password!',
+                    ]);    
+                }
+              }
+    
+             else{
+                    return response()->json([
+                        'success' => 'false',
+                        'msg' => 'invalid current password',
+                    ]);
+                }
+    }
+
+
 
 }

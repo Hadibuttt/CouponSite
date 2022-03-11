@@ -52,12 +52,6 @@ class CreatorController extends Controller
             'supporting' => $supporting
         ]);
         
-        $userName = User::where('id',$createrID)->first();
-        
-        Website::where('name',$userName['name'])->update([
-            'supporting' => $supporting
-        ]);
-
         return response()->json([
             "success"=> 'true',
             "msg" => 'supporting started/stopped'
@@ -66,12 +60,19 @@ class CreatorController extends Controller
 
     public function supporters(Request $request)
     {
-        $UserSupporting =  UserSupport::where('user_name','Rashid Butt')->get();
+        $CreatorSupporting =  UserSupport::where('user_name','Hammad Butt')->get();
 
-        $userSupports =  Website::select('name','supporting','website','profile_thumbnail','coupon_codes')->where('name', $UserSupporting['creator_name'])->get();
+        $CreaterArray = array();
+            
+            foreach($CreatorSupporting as $c){
+                $CreaterArray[] = $c->creator_name;
+            }
+        
+
+        $CreatorSupports =  Website::select('name','supporting','website','profile_thumbnail','coupon_codes')->whereIn('name', $CreaterArray)->get();
 
         return response()->json([
-            $userSupports
+            $CreatorSupports
         ]);
     }
 
