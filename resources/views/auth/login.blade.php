@@ -5,11 +5,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iofrm</title>
+    <title>YourCoupon | Login</title>
     <link rel="stylesheet" type="text/css" href="auth/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="auth/css/fontawesome-all.min.css">
     <link rel="stylesheet" type="text/css" href="auth/css/iofrm-style.css">
     <link rel="stylesheet" type="text/css" href="auth/css/iofrm-theme5.css">
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <div class="form-body">
@@ -45,12 +46,24 @@
                                               {{ Session::get('success') }}
                                       </div>
                 @endif
-                            <input class="form-control" type="text" name="email" placeholder="E-mail Address" required>
+
+                @if (Session::has('status'))
+                                        <div class="alert alert-dismissable alert-success">    
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                              <span aria-hidden="true">&times;</span>
+                                          </button>
+                                              {{ Session::get('status') }}
+                                      </div>
+                @endif
+                            <input class="form-control" type="text" name="email" value="{{old('email')}}" placeholder="E-mail Address" required>
+
                             <input class="form-control" type="password" name="password" placeholder="Password" required>
+                        @error('email')
+                            <span style="color:white;">{{ $message }}</span>
+                        @enderror
                             <div class="form-button">
-                                <button id="submit" type="submit" class="ibtn">Login</button> <a href="/forget-password">Forget password?</a>
+                                <button id="submit" type="submit" class="ibtn">Login</button> <a href="/forgot-password">Forget password?</a>
                             </div>
-                        <input type="hidden" name="login" value="1">
                         </form>
                         <div class="other-links">
                             <span>Or login with</span><a href="#">Facebook</a><a href="#">Google</a><a href="#">Linkedin</a>
