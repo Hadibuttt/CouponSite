@@ -15,10 +15,8 @@ class CreateWebsitesTable extends Migration
     {
         Schema::create('websites', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('supporting')->nullable()->default('false');
+            $table->string('user_id');
             $table->string('website');
-            $table->string('profile_thumbnail');
             $table->json('coupon_codes')->nullable();
             $table->timestamps();
         });

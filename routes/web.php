@@ -25,3 +25,10 @@ Route::post('/create-coupon', [App\Http\Controllers\WebCodeController::class, 'c
 Route::post('/create-multiple-coupon', [App\Http\Controllers\WebCodeController::class, 'createMCoupon']);
 
 Route::view('reset-password', 'reset_password')->name('password.reset');
+
+Route::get('/logout', function () {
+    Auth::logout();
+    Session::flush();
+    return Redirect::to('/');
+});
+

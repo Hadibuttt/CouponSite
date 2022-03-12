@@ -15,8 +15,9 @@ class CreateUsersupportTable extends Migration
     {
         Schema::create('usersupport', function (Blueprint $table) {
             $table->id();
-            $table->string('user_name');
-            $table->string('creator_name');
+            $table->string('user_id');
+            $table->string('creator_id');
+            $table->boolean('supporting');
             $table->timestamps();
         });
     }

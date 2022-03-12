@@ -15,6 +15,8 @@ class ExtensionUser extends Authenticatable
     protected $table = 'extension_users';
     protected $primaryKey = 'id';
 
+    protected $guard = 'extensionUser';
+
     protected $fillable = [
         'name',
         'email',

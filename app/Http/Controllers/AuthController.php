@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use App\Models\User;
+use App\Models\ExtensionUser;
 use Validator;
 
 
@@ -16,7 +17,7 @@ class AuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255|unique:extension_users',
             'password' => 'required|string|min:8',
         ]);
 
@@ -27,7 +28,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = User::create([
+        $user = ExtensionUser::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -41,14 +42,14 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::guard('extensionUser')->attempt($request->only('email', 'password'))) {
             return response()->json([
                 'success' => 'false',
                 'msg' => 'invalid email or password'
                 ]);
             }
     
-        $user = User::where('email', $request['email'])->firstOrFail();
+        $user = ExtensionUser::where('email', $request['email'])->firstOrFail();
     
         $token = $user->createToken('auth_token')->plainTextToken;
     

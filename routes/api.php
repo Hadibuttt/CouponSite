@@ -28,7 +28,7 @@ Route::post('/update-password', [App\Http\Controllers\AuthController::class, 'up
 //Creator API'S
 Route::get('/q/{url}', [App\Http\Controllers\CreatorController::class, 'search']);
 Route::get('/s/{url}', [App\Http\Controllers\CreatorController::class, 'searchName']);
-Route::post('/support', [App\Http\Controllers\CreatorController::class, 'support']);
+Route::post('/support', [App\Http\Controllers\CreatorController::class, 'support'])->middleware('auth:sanctum');
 Route::get('/supporters', [App\Http\Controllers\CreatorController::class, 'supporters'])->middleware('auth:sanctum');
 
 

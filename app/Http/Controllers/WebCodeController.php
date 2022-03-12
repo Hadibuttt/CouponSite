@@ -8,6 +8,7 @@ use App\Models\Website;
 use App\Models\Coupon;
 use App\Models\User;
 use File;
+use Session;
 
 class WebCodeController extends Controller
 {
@@ -51,21 +52,20 @@ class WebCodeController extends Controller
 
         $website = preg_replace("(^https?://)", "", $validatedData['website'] );
 
-        $alreadyAdded = Website::where('name','Hadi Butt')->where('website', $website)->first();
+        $alreadyAdded = Website::where('user_id',1)->where('website', $website)->first();
 
         if(!$alreadyAdded){
             $web = new Website();
-            $web->name = 'Hadi Butt';
+            $web->user_id = 1;
             $web->website = $website;
-            $web->profile_thumbnail = 'http://127.0.0.1:8000/public/thumbnails/1646755956.jpg';
             $web->save();
 
             $websiteID = Website::latest('id')->value('id');
         
             $coupon = new Coupon();
+            $coupon->user_id = 1;
             $coupon->website_id = $websiteID;
             $coupon->coupon_code = $validatedData['code'];
-            $coupon->user_name = 'Hadi Butt';
             $coupon->save();
 
             $couponName = Coupon::latest('id')->value('coupon_code');
@@ -76,9 +76,9 @@ class WebCodeController extends Controller
     }
     else{
             $coupon = new Coupon();
+            $coupon->user_id = 1;
             $coupon->website_id = $alreadyAdded['id'];
             $coupon->coupon_code = $validatedData['code'];
-            $coupon->user_name = 'Hadi Butt';
             $coupon->save();
 
             $website_id = Coupon::latest('id')->value('website_id');
@@ -227,7 +227,5 @@ class WebCodeController extends Controller
             "Inserted Image" => $request->image,
         ]);
     }
-
-
 
 }
