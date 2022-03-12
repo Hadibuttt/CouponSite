@@ -30,18 +30,3 @@ Route::get('/q/{url}', [App\Http\Controllers\CreatorController::class, 'search']
 Route::get('/s/{url}', [App\Http\Controllers\CreatorController::class, 'searchName']);
 Route::post('/support', [App\Http\Controllers\CreatorController::class, 'support'])->middleware('auth:sanctum');
 Route::get('/supporters', [App\Http\Controllers\CreatorController::class, 'supporters'])->middleware('auth:sanctum');
-
-
-
-
-// Route::get('/index', [App\Http\Controllers\WebCodeController::class, 'index']);
-// Route::post('/create', [App\Http\Controllers\WebCodeController::class, 'create']);
-// Route::patch('/update-image', [App\Http\Controllers\WebCodeController::class, 'update']);
-
-
-
-
-// Route::group(['middleware' => 'verified','auth'], function () {
-//     Route::get('/checkout', [App\Http\Controllers\ProductsController::class, 'checkout']);
-//     Route::post('/checkout/success', [App\Http\Controllers\ProductsController::class, 'checkout_success']);    
-//     });

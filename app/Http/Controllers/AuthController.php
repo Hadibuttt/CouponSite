@@ -63,10 +63,10 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $credentials = $request->validate(['email' => 'required|email']);
-        $emailIs = User::where('email',$credentials)->first();
+        $emailIs = ExtensionUser::where('email',$credentials)->first();
         
         if($emailIs){
-            Password::sendResetLink($credentials);
+            Password::broker('extensionUser')->sendResetLink($credentials);
             return response()->json([
                 'success' => 'true',
                 'msg' => 'password resent link sent to email',
@@ -86,7 +86,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed'
         ]);
 
-        $reset_password_status = Password::reset($credentials, function ($user, $password) {
+        $reset_password_status = Password::broker('extensionUser')->reset($credentials, function ($user, $password) {
             $user->password = Hash::make($password);
             $user->save();
         });
@@ -100,15 +100,15 @@ class AuthController extends Controller
 
     public function update(Request $request)
     {
-        $hashedPassword = Auth::user()->password;
+        $hashedPassword = $request->user()->password;
 
         if (\Hash::check($request->currentPassword , $hashedPassword )) {
  
             if (!\Hash::check($request->newPassword , $hashedPassword)) {
     
-                 $users = User::find(Auth::user()->id);
+                 $users = ExtensionUser::find($request->user()->id);
                  $users->password = bcrypt($request->newPassword);
-                 User::where('id', Auth::user()->id)->update(['password' =>  $users->password]);
+                 ExtensionUser::where('id', $request->user()->id)->update(['password' =>  $users->password]);
     
                     return response()->json([
                         'success' => 'true',

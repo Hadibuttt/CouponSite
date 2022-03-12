@@ -53,7 +53,7 @@
                             <div class="col-md-12 col-sm-12">
                                 <label class="control-label">Your Photo <small>Please add a photo. (200x200)</small></label>
                                 <div class="fileupload fileupload-new" data-provides="fileupload">
-                                    <div class="fileupload-preview thumbnail"><img @if($user->image == 'null.jpg') src="thumbnails/{{$user->image}}" @else src="thumbnails/{{$user->image}}" @endif alt=""></div>
+                                    <div class="fileupload-preview thumbnail"><img src="thumbnails/{{Auth::user()->image}}" alt=""></div>
                         @error('image')
                                     <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
                         @enderror                
@@ -74,14 +74,14 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 <label class="control-label">Your Name <small>Enter your company name</small></label>
-                                <input name="name" value="{{$user->name}}" required type="text" class="form-control" placeholder="Jenny Pelt">
+                                <input name="name" value="{{Auth::user()->name}}" required type="text" class="form-control" placeholder="Jenny Pelt">
                     @error('name')
                                 <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
                     @enderror
                             </div>
                             <div class="col-md-6 col-sm-12">
                                 <label class="control-label">Email <small>Enter offical email here</small></label>
-                                <input name="email" type="email" value="{{$user->email}}" required class="form-control" placeholder="support@psdconverthtml.com">
+                                <input name="email" type="email" value="{{Auth::user()->email}}" required class="form-control" placeholder="support@psdconverthtml.com">
                     @error('email')
                                 <div class="error f-16 d-block f-bold text-danger">{{ $message }}</div>
                     @enderror

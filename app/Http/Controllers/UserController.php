@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function dashboard()
     {
-        $websites = Website::where('name','Hadi Butt')->get();
+        $websites = Website::where('user_id',Auth::id())->get();
 
         $WebsiteArray = array();
             
@@ -21,13 +21,12 @@ class UserController extends Controller
             $WebsiteArray[] = $c->id;
         }
 
-        $coupons = Coupon::whereIn('website_id',$WebsiteArray)->orderBy('id','DESC')->get();
+        $coupons = Coupon::where('user_id',Auth::id())->whereIn('website_id',$WebsiteArray)->orderBy('id','DESC')->get();
 
         
-        $count = Coupon::whereIn('website_id',$WebsiteArray)->count();
-        $user = User::where('id', 1)->first();
+        $count = Coupon::where('user_id',Auth::id())->whereIn('website_id',$WebsiteArray)->count();
 
-        return view('dashboard', compact('websites','coupons','user','count'));
+        return view('dashboard', compact('websites','coupons','count'));
     }
 
     public function update(Request $request)
@@ -35,7 +34,7 @@ class UserController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255|min:3',
             'image' => 'required|image|mimes:jpg,jpeg,png,svg,gif|',
-            'email' => 'required|email|max:255|unique:users,email,'.'1',
+            'email' => 'required|email|max:255|unique:users,email,'.Auth::id(),
         ]);
 
         //Image Resizing
@@ -52,7 +51,7 @@ class UserController extends Controller
         $filePath = public_path('/images/profile-images/');
         $image->move($filePath, $validatedData['image']);
 
-        User::where('id',1)->update([
+        User::where('id',Auth::id())->update([
             "image" => $validatedData['image'],
             "name" => $validatedData['name'],
             "email" => $validatedData['email'],
