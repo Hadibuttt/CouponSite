@@ -20,7 +20,7 @@ class CreatorController extends Controller
         $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->get();
         
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'creators' => $creaters,
         ]);
     }
@@ -33,7 +33,7 @@ class CreatorController extends Controller
         $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->orWhere('users.name', 'like', "%$url%")->get();
         
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'results' => $creaters,
         ]);
     }
@@ -45,7 +45,7 @@ class CreatorController extends Controller
 
         if(!User::find($createrID)){
                 return response()->json([
-                    "success" => 'false',
+                    "success" => false,
                     "msg" => 'creator not found'
                 ]);}
 
@@ -59,7 +59,7 @@ class CreatorController extends Controller
             $UserSupporting->save();
 
             return response()->json([
-                "success"=> 'true',
+                "success"=> true,
                 "msg" => 'supporting started'
             ]);
         }
@@ -70,7 +70,7 @@ class CreatorController extends Controller
             ]);
 
             return response()->json([
-                "success"=> 'true',
+                "success"=> true,
                 "msg" => 'supporting stopped'
             ]);
         }
