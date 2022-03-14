@@ -23,8 +23,8 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'success' => 'false',
-                'msg' => 'email already exists'
+                'success' => false,
+                'msg' => $validator->errors()->first()
             ]);
         }
 
@@ -35,7 +35,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'true',
+            'success' => true,
             'msg' => 'signup successfully',
         ]);
     }
@@ -44,7 +44,7 @@ class AuthController extends Controller
     {
         if (!Auth::guard('extensionUser')->attempt($request->only('email', 'password'))) {
             return response()->json([
-                'success' => 'false',
+                'success' => false,
                 'msg' => 'invalid email or password'
                 ]);
             }
@@ -54,7 +54,7 @@ class AuthController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
     
         return response()->json([
-                'success' => 'true',
+                'success' => true,
                 'token' => $token,
                 'msg' => 'logged in successfully',
         ]);
@@ -62,29 +62,53 @@ class AuthController extends Controller
 
     public function forgot(Request $request)
     {
-        $credentials = $request->validate(['email' => 'required|email']);
+        $validator = Validator::make($request->all(), ['email' => 'required|email']);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'msg' => $validator->errors()->first()
+            ]);
+        }
+
+        $credentials = $request->email;
         $emailIs = ExtensionUser::where('email',$credentials)->first();
         
         if($emailIs){
             Password::broker('extensionUser')->sendResetLink($credentials);
             return response()->json([
-                'success' => 'true',
+                'success' => true,
                 'msg' => 'password resent link sent to email',
         ]);
         }else{
             return response()->json([
-                'success' => 'false',
+                'success' => false,
                 'msg' => 'email not found',
             ]);
         }
     }
 
-    public function reset() {
-        $credentials = request()->validate([
+    public function reset(Request $request) {
+
+        $validator = Validator::make($request->all(), 
+        [
             'email' => 'required|email',
             'token' => 'required|string',
-            'password' => 'required|string|confirmed'
+            'password' => 'required|min:8|string|confirmed'
         ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'msg' => $validator->errors()->first()
+            ]);
+        }
+
+        $credentials = request()->validate([
+                'email' => 'required|email',
+                'token' => 'required|string',
+                'password' => 'required|string|confirmed'
+            ]);
 
         $reset_password_status = Password::broker('extensionUser')->reset($credentials, function ($user, $password) {
             $user->password = Hash::make($password);
@@ -92,14 +116,32 @@ class AuthController extends Controller
         });
 
         if ($reset_password_status == Password::INVALID_TOKEN) {
-            return response()->json(["msg" => "Invalid token provided"], 400);
-        }
+            return response()->json([
+            'success' => false,
+            'msg' => 'Invalid token provided'
+        ]);}
 
-        return response()->json(["msg" => "Password has been successfully changed"]);
+        return response()->json([
+            "success" => true,
+            "msg" => "Password has been successfully changed"]);
     }
 
     public function update(Request $request)
     {
+        $validator = Validator::make($request->all(), 
+        [
+            'currentPassword' => 'required',
+            'newPassword' => 'required|min:8'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'msg' => $validator->errors()->first()
+            ]);
+        }
+
+
         $hashedPassword = $request->user()->password;
 
         if (\Hash::check($request->currentPassword , $hashedPassword )) {
@@ -111,22 +153,22 @@ class AuthController extends Controller
                  ExtensionUser::where('id', $request->user()->id)->update(['password' =>  $users->password]);
     
                     return response()->json([
-                        'success' => 'true',
+                        'success' => true,
                         'msg' => 'password updated successfully',
                     ]);
                }
     
                else{
                     return response()->json([
-                        'success' => 'false',
-                        'msg' => 'New Password can not be the Old Password!',
+                        'success' => false,
+                        'msg' => 'New Password can not be the current Password!',
                     ]);    
                 }
               }
     
              else{
                     return response()->json([
-                        'success' => 'false',
+                        'success' => false,
                         'msg' => 'invalid current password',
                     ]);
                 }
