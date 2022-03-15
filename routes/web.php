@@ -27,7 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::view('/', 'index');
 
-
 Route::view('reset-password', 'reset_password')->name('password.reset');
 
 Route::get('/logout', function () {

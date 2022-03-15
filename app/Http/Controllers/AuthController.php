@@ -42,6 +42,18 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'msg' => $validator->errors()->first()
+            ]);
+        }
+
         if (!Auth::guard('extensionUser')->attempt($request->only('email', 'password'))) {
             return response()->json([
                 'success' => false,
@@ -71,7 +83,7 @@ class AuthController extends Controller
             ]);
         }
 
-        $credentials = $request->email;
+        $credentials = $request->validate(['email' => 'required|email']);
         $emailIs = ExtensionUser::where('email',$credentials)->first();
         
         if($emailIs){

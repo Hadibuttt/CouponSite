@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Coupon;
 use App\Models\Website;
 use App\Models\UserSupport;
 use App\Models\ExtensionUser;
@@ -16,26 +17,44 @@ class CreatorController extends Controller
     public function search($url)
     {   
         $url = preg_replace("(www.)", "", $url);
-
-        $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->get();
+        $webResult = str_contains($url, '.com');
         
-        return response()->json([
-            'success' => true,
-            'creators' => $creaters,
-        ]);
-    }
-
-
-    public function searchName($url)
-    {   
-        $url = preg_replace("(www.)", "", $url);
-
-        $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->orWhere('users.name', 'like', "%$url%")->get();
+        if($webResult){
+                $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->get();
+            
+            return response()->json([
+                'success' => true,
+                'creators' => $creaters,
+            ]);
+        }else{
+                $arr_creaters = [];
+                $url = preg_replace("(www.)", "", $url);
+                
+                $arr_join_data = Website::join('users', 'users.id', '=', 'websites.user_id')->where('websites.website', 'like', "%$url%")->orWhere('users.name', 'like', "%$url%")
+                ->get(['users.id as userID','users.name as createrName','users.supporting as userSupporting','users.image as userProfileImage', 'websites.id as websiteID','websites.website as websiteName']);
         
-        return response()->json([
-            'success' => true,
-            'results' => $creaters,
-        ]);
+                foreach ($arr_join_data as $key => $value) {
+                    $objUser['name'] =$value->createrName;
+                    $objUser['supporting'] =$value->userSupporting;
+                    $objUser['profile_thumbnail'] = public_path().'/images/profile-images/'.$value->userProfileImage;
+
+                    $objCoupans = Coupon::where('website_id',$value->websiteID)->get();
+                    $arr_temp_coupan = array();
+                    $arr_temp_coupan['domain'] = $value->websiteName;
+
+                    foreach ($objCoupans as $key => $value) {
+                        $arr_temp_coupan['coupons'][$key] = $value->coupon_code;
+                    }
+                    
+                    $objUser['coupons'] = [$arr_temp_coupan];
+                    $arr_creaters[] = $objUser;
+                }
+                
+                return response()->json([
+                    'success' => true,
+                    'results' => $arr_creaters,
+                ]);
+        }  
     }
 
     public function support(Request $request)
@@ -78,15 +97,37 @@ class CreatorController extends Controller
 
     public function supporters(Request $request)
     {
-        $CreatorSupports =  Website::select('usersupport.id','users.name','usersupport.supporting','users.profile_thumbnail','website','coupon_codes')
-        ->join('users','users.id','=','websites.user_id')
+        $arr_creaters = [];
+        $i = 1;
+        $CreatorSupports =  Website::join('users','users.id','=','websites.user_id')
         ->join('usersupport','usersupport.creator_id','=','websites.user_id')
         ->where('usersupport.user_id',$request->user()->id)->where('usersupport.supporting',1)
-        ->get();
+        ->get(['users.name as createrName','usersupport.supporting as userSupporting','users.image as userProfileImage', 'websites.id as websiteID','websites.website as websiteName','usersupport.id as UID']);
+
+        foreach ($CreatorSupports as $key => $value) {
+            $objUser['id'] = $i;
+            $objUser['name'] =$value->createrName;
+            $objUser['supporting'] =$value->userSupporting;
+            $objUser['profile_thumbnail'] = public_path().'/images/profile-images/'.$value->userProfileImage;
+
+            $objCoupans = Coupon::where('website_id',$value->websiteID)->get();
+            $arr_temp_coupan = array();
+            $arr_temp_coupan['domain'] = $value->websiteName;
+
+            foreach ($objCoupans as $key => $value) {
+                $arr_temp_coupan['coupons'][$key] = $value->coupon_code;
+            }
+            
+            $objUser['coupons'] = [$arr_temp_coupan];
+            $arr_creaters[] = $objUser;
+            $i++;
+        }
 
         return response()->json([
-            $CreatorSupports
+            'success' => true,
+            'results' => $arr_creaters,
         ]);
+
     }
 
 }
