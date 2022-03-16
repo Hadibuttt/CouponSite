@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('image')->nullable()->default('null.jpg');
-            $table->string('profile_thumbnail')->nullable()->default('http://127.0.0.1:8000/thumbnails/null.jpg');
+            $table->string('profile_thumbnail')->nullable();
             $table->boolean('supporting')->nullable()->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

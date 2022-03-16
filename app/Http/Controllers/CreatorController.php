@@ -20,13 +20,37 @@ class CreatorController extends Controller
         $webResult = str_contains($url, '.com');
         
         if($webResult){
-                $creaters = Website::select('users.name','users.supporting','website','users.profile_thumbnail','coupon_codes')->join('users','users.id','=','websites.user_id')->where('website', 'like', "%$url%")->get();
             
-            return response()->json([
+                $arr_creaters = [];
+                $url = preg_replace("(www.)", "", $url);
+                
+                $arr_join_data = Website::join('users', 'users.id', '=', 'websites.user_id')->where('websites.website', 'like', "%$url%")
+                ->get(['users.id as userID','users.name as createrName','users.supporting as userSupporting','users.image as userProfileImage', 'websites.id as websiteID','websites.website as websiteName']);
+        
+                foreach ($arr_join_data as $key => $value) {
+                    $objUser['name'] =$value->createrName;
+                    $objUser['supporting'] =$value->userSupporting;
+                    $objUser['website'] =$value->websiteName;
+                    $objUser['profile_thumbnail'] = $_SERVER['SERVER_NAME'].'/thumbnails/'.$value->userProfileImage;
+
+                    $objCoupans = Coupon::where('website_id',$value->websiteID)->get();
+                    $arr_temp_coupan = array();
+
+                    foreach ($objCoupans as $key => $value) {
+                        $arr_temp_coupan[$key] = $value->coupon_code;
+                    }
+                    
+                    $objUser['coupon_codes'] = $arr_temp_coupan;
+                    $arr_creaters[] = $objUser;
+                }
+
+                return response()->json([
                 'success' => true,
-                'creators' => $creaters,
+                'creators' => $arr_creaters,
             ]);
-        }else{
+        }
+                
+        else{
                 $arr_creaters = [];
                 $url = preg_replace("(www.)", "", $url);
                 
@@ -36,7 +60,7 @@ class CreatorController extends Controller
                 foreach ($arr_join_data as $key => $value) {
                     $objUser['name'] =$value->createrName;
                     $objUser['supporting'] =$value->userSupporting;
-                    $objUser['profile_thumbnail'] = public_path().'/images/profile-images/'.$value->userProfileImage;
+                    $objUser['profile_thumbnail'] = $_SERVER['SERVER_NAME'].'/thumbnails/'.$value->userProfileImage;
 
                     $objCoupans = Coupon::where('website_id',$value->websiteID)->get();
                     $arr_temp_coupan = array();
@@ -59,6 +83,19 @@ class CreatorController extends Controller
 
     public function support(Request $request)
     {
+        $validator = Validator::make($request->all(), 
+        [
+            'createrID' => 'required',
+            'supporting' => 'required|boolean'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'msg' => $validator->errors()->first()
+            ]);
+        }
+
         $createrID = $request->createrID;
         $supporting = $request->supporting;
 
@@ -77,10 +114,17 @@ class CreatorController extends Controller
             $UserSupporting->supporting = $supporting;
             $UserSupporting->save();
 
-            return response()->json([
-                "success"=> true,
-                "msg" => 'supporting started'
-            ]);
+            if($supporting == 1){
+                return response()->json([
+                    "success"=> true,
+                    "msg" => 'supporting started'
+                ]);
+            }else{
+                return response()->json([
+                    "success"=> true,
+                    "msg" => 'supporting stopped'
+                ]);
+            }
         }
         
         else{
@@ -88,10 +132,17 @@ class CreatorController extends Controller
                 'supporting' => $supporting
             ]);
 
-            return response()->json([
-                "success"=> true,
-                "msg" => 'supporting stopped'
-            ]);
+            if($supporting == 1){
+                return response()->json([
+                    "success"=> true,
+                    "msg" => 'supporting started'
+                ]);
+            }else{
+                return response()->json([
+                    "success"=> true,
+                    "msg" => 'supporting stopped'
+                ]);
+            }
         }
     }
 
@@ -108,7 +159,7 @@ class CreatorController extends Controller
             $objUser['id'] = $i;
             $objUser['name'] =$value->createrName;
             $objUser['supporting'] =$value->userSupporting;
-            $objUser['profile_thumbnail'] = public_path().'/images/profile-images/'.$value->userProfileImage;
+            $objUser['profile_thumbnail'] = $_SERVER['SERVER_NAME'].'/thumbnails/'.$value->userProfileImage;
 
             $objCoupans = Coupon::where('website_id',$value->websiteID)->get();
             $arr_temp_coupan = array();
@@ -127,7 +178,5 @@ class CreatorController extends Controller
             'success' => true,
             'results' => $arr_creaters,
         ]);
-
     }
-
 }
