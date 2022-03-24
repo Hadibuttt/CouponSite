@@ -133,9 +133,11 @@ class AuthController extends Controller
             'msg' => 'Invalid token provided'
         ]);}
 
-        return response()->json([
-            "success" => true,
-            "msg" => "Password has been successfully changed"]);
+        return redirect('/success-page')->with('status','Your password has been updated successfully!');
+
+        // return response()->json([
+        //     "success" => true,
+        //     "msg" => "Password has been successfully changed"]);
     }
 
     public function update(Request $request)

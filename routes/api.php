@@ -25,9 +25,11 @@ Route::post('/forgot-password', [App\Http\Controllers\AuthController::class, 'fo
 Route::post('/password/reset', [App\Http\Controllers\AuthController::class, 'reset']);
 Route::post('/update-password', [App\Http\Controllers\AuthController::class, 'update'])->middleware('auth:sanctum');
 
+Route::post('/insert-random', [App\Http\Controllers\CreatorController::class, 'insert_random_data']);
+
 //Creator API'S
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/q/{url}', [App\Http\Controllers\CreatorController::class, 'search']);
+    Route::get('/search', [App\Http\Controllers\CreatorController::class, 'search']);
     Route::post('/support', [App\Http\Controllers\CreatorController::class, 'support']);
     Route::get('/supporters', [App\Http\Controllers\CreatorController::class, 'supporters']);
 });

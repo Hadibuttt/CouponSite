@@ -25,8 +25,11 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 
-Route::view('/', 'index');
 
+Route::view('/', 'index');
+Route::get('/success-page',function(){
+    return view('success-page');
+});
 Route::view('reset-password', 'reset_password')->name('password.reset');
 
 Route::get('/logout', function () {

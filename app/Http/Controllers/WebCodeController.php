@@ -21,12 +21,16 @@ class WebCodeController extends Controller
 
         $website = preg_replace("(^https?://)", "", $validatedData['website'] );
 
-        $alreadyAdded = Website::where('user_id',Auth::id())->where('website', $website)->first();
+        $WithoutWWW = preg_replace("(www.)", "", $website );
+
+        $ActualWebsite = preg_replace("(/)", "", $WithoutWWW );
+
+        $alreadyAdded = Website::where('user_id',Auth::id())->where('website', $ActualWebsite)->first();
 
         if(!$alreadyAdded){
             $web = new Website();
             $web->user_id = Auth::id();
-            $web->website = $website;
+            $web->website = $ActualWebsite;
             $web->save();
 
             $websiteID = Website::latest('id')->value('id');
@@ -78,12 +82,16 @@ class WebCodeController extends Controller
 
         $website = preg_replace("(^https?://)", "", $validatedData['website'] );
 
-        $alreadyAdded = Website::where('user_id',Auth::id())->where('website', $website)->first();
+        $WithoutWWW = preg_replace("(www.)", "", $website );
+
+        $ActualWebsite = preg_replace("(/)", "", $WithoutWWW );
+
+        $alreadyAdded = Website::where('user_id',Auth::id())->where('website', $ActualWebsite)->first();
 
         if(!$alreadyAdded){
             $web = new Website();
             $web->user_id = Auth::id();
-            $web->website = $website;
+            $web->website = $ActualWebsite;
             $web->save();
 
             $websiteID = Website::latest('id')->value('id');
